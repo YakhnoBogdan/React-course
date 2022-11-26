@@ -1,30 +1,35 @@
-import { React } from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import { Task } from './Task'
+import { selectFilter } from '../redux/tasks/selectors'
 
-export function TaskList({ tasksItems, removeTask, onEditTask, onSetStatus, statusFilter }) {
+const styles = {
+  nothingToDispay: {
+    textAlign: 'center',
+    padding: '20px 0',
+    fontSize: '24px',
+  },
+}
+export function TaskList({ tasks }) {
+  const filter = useSelector(selectFilter)
+
+  if (!tasks?.length) {
+    return <div style={styles.nothingToDispay}>No tasks to display</div>
+  }
   return (
-    <div style={{ padding: '30px 0' }}>
-      {tasksItems.map((item) => {
-        localStorage.setItem(item.id, item)
-        return (
-          <div key={item.id}>
-            {item.status === statusFilter || statusFilter === 'all' ? (
-              <Task task={item} removeTask={removeTask} onEditTask={onEditTask} onSetStatus={onSetStatus} />
-            ) : null}
-          </div>
-        )
+    <div>
+      {tasks.map((task) => {
+        if (task.status === filter || filter === 'all') {
+          return <Task key={task.id} task={task} />
+        }
+        return null
       })}
     </div>
   )
 }
 
 TaskList.propTypes = {
-  removeTask: PropTypes.func.isRequired,
-  onEditTask: PropTypes.func.isRequired,
-  onSetStatus: PropTypes.func.isRequired,
-  statusFilter: PropTypes.string.isRequired,
-  tasksItems: PropTypes.arrayOf(
+  tasks: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string.isRequired,
       description: PropTypes.string.isRequired,

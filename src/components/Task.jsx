@@ -1,48 +1,77 @@
+import PropTypes from 'prop-types'
 import { useCallback } from 'react'
 import { Card, CardActions, CardContent, Typography, Button, Box, Radio, FormControlLabel } from '@mui/material'
-import PropTypes from 'prop-types'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import { useDispatch } from 'react-redux'
+import { editTask, removeTask } from '../redux/tasks/actions'
 
 const styles = {
-  flexContainer: {
+  cardContaner: {
+    minWidth: 275,
+    mb: 1.5,
     display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'space-between',
+  },
+  actionsContainer: {
+    dispay: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    flexBasis: '30%',
+    alignItems: 'flex-end',
+  },
+  buttonsContainer: {
+    dispay: 'flex',
+    padding: '10px',
+  },
+  desciptionText: {
+    fontSize: '16px',
+    wordBreak: 'break-word',
+  },
+  titleText: {
+    wordBreak: 'break-word',
+  },
+  datesContainer: {
+    paddingTop: '40px',
+  },
+  updatingDateMargin: {
+    marginBottom: '10px',
   },
 }
 
-export function Task({ task, removeTask, onEditTask }) {
+export function Task({ task }) {
+  const dispatch = useDispatch()
+
   const handleRemoveTask = useCallback(() => {
-    removeTask(task.id)
-  }, [removeTask, task])
+    dispatch(removeTask(task))
+  }, [dispatch, task])
 
   const handleEditTask = useCallback(() => {
-    onEditTask(task.id)
-  }, [onEditTask, task])
+    dispatch(editTask(task))
+  }, [task, dispatch])
 
   return (
-    <Card variant='outlined' sx={{ minWidth: 275, display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
-      <CardContent sx={styles.flexContainer}>
+    <Card variant='outlined' sx={styles.cardContaner}>
+      <CardContent>
         <Box>
-          <Typography variant='h5' component='div'>
+          <Typography variant='h5' component='div' sx={styles.titleText}>
             {task.title}
           </Typography>
-          <Typography sx={{ fontSize: 16 }} color='text.secondary' gutterBottom>
+          <Typography sx={styles.desciptionText} color='text.secondary' gutterBottom>
             {task.description}
           </Typography>
         </Box>
 
-        <Box sx={{ paddingTop: '40px' }}>
-          <Typography color='text.secondary' sx={{ mb: 1.1 }}>
+        <Box sx={styles.datesContainer}>
+          <Typography color='text.secondary' sx={styles.updatingDateMargin}>
             {task?.updatingDate ? `Updating date: ${task.updatingDate}` : null}
           </Typography>
           <Typography color='text.secondary'>Creation date: {task.creationDate}</Typography>
         </Box>
       </CardContent>
 
-      <CardActions sx={styles.flexContainer}>
+      <CardActions sx={styles.actionsContainer}>
         <FormControlLabel value='open' control={<Radio />} label={task.status} checked />
-        <Box sx={{ display: 'flex', padding: '10px' }}>
+        <Box sx={styles.buttonsContainer}>
           <Button size='small' onClick={handleEditTask}>
             Edit
           </Button>
@@ -56,8 +85,6 @@ export function Task({ task, removeTask, onEditTask }) {
 }
 
 Task.propTypes = {
-  removeTask: PropTypes.func.isRequired,
-  onEditTask: PropTypes.func.isRequired,
   task: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
