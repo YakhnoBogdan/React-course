@@ -1,0 +1,7 @@
+.goodsList {
+  display: grid;
+  gap: 1rem;
+  flex-basis: 65%;
+  grid-template-columns: repeat(auto-fit, 300px);
+  justify-content: center;
+}

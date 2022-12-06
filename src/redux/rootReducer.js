@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import { taskReducer } from './tasks/reducer'
+import { goodsReducer } from './goods/reducer'
 
 export const rootReducer = combineReducers({
-  tasks: taskReducer,
+  goods: goodsReducer,
 })

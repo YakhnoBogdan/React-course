@@ -1,0 +1,13 @@
+.form {
+  width: 100%;
+  max-width: 400px;
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  flex-basis: 35%;
+}
+
+.form__button {
+  width: 100%;
+}

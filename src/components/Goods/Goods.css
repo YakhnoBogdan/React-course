@@ -1,0 +1,17 @@
+.card {
+  width: 300px;
+  min-height: 220px;
+  padding-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card_loading {
+  justify-content: center;
+  align-items: center;
+}
+
+.card__actions {
+  justify-content: space-between;
+}

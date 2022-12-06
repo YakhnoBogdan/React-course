@@ -1,0 +1,15 @@
+.filterContainer {
+  padding: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.filterSelect {
+  flex: 1 1 20%;
+  background-color: #fff;
+}
+
+.filterTextField {
+  flex: 1 1 80%;
+  background-color: #fff;
+}

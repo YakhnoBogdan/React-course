@@ -24,5 +24,7 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'import/prefer-default-export': 0,
     'react/prop-types': 0,
+    'no-nested-ternary': 0,
+    'default-param-last': 0,
   },
 }
