@@ -2,14 +2,15 @@ import * as ActionsType from './actions'
 
 const initialState = {
   goodsList: [],
+  goodsToEdit: null,
   errorGetRequest: null,
   errorRemove: null,
   errorPostGoods: null,
   errorEdit: null,
   isLoadingGetAllGoods: 'unset',
   isLoadingRemove: {},
+  isLoadingEdit: {},
   isLoadingAdd: false,
-  isLoadingEdit: false,
   fieldFilter: 'title',
   stringFilter: '',
 }
@@ -80,6 +81,11 @@ export const goodsReducer = (state = initialState, action) => {
         errorPostGoods: null,
         isLoadingAdd: false,
       }
+    case ActionsType.UPDATE_EDIT_GOODS:
+      return {
+        ...state,
+        goodsToEdit: action.goodsItem,
+      }
     case ActionsType.UPDATE_GOODS_REQUEST:
       return {
         ...state,
@@ -106,6 +112,7 @@ export const goodsReducer = (state = initialState, action) => {
           [action.goodsItem.id]: false,
         },
         goodsList: [...state.goodsList].map((item) => (item.id === action.goodsItem.id ? action.goodsItem : item)),
+        goodsToEdit: null,
       }
     case ActionsType.FILTER_BY_STRING:
       return {

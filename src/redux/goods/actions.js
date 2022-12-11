@@ -10,6 +10,7 @@ export const REMOVE_GOODS_REQUEST = '@goods/REMOVE_GOODS_REQUEST'
 export const REMOVE_GOODS_SUCCESS = '@goods/REMOVE_GOODS_SUCCESS'
 export const REMOVE_GOODS_FAILURE = '@goods/REMOVE_GOODS_FAILURE'
 
+export const UPDATE_EDIT_GOODS = '@goods/UPDATE_EDIT_GOODS'
 export const UPDATE_GOODS_REQUEST = '@goods/UPDATE_GOODS_REQUEST'
 export const UPDATE_GOODS_SUCCESS = '@goods/UPDATE_GOODS_SUCCESS'
 export const UPDATE_GOODS_FAILURE = '@goods/UPDATE_GOODS_FAILURE'
@@ -65,6 +66,11 @@ export const addGoodsFailure = (error) => ({
 
 export const addGoodsSuccess = (goodsItem) => ({
   type: ADD_GOODS_SUCCESS,
+  goodsItem,
+})
+
+export const updateGoodsToEdit = (goodsItem) => ({
+  type: UPDATE_EDIT_GOODS,
   goodsItem,
 })
 

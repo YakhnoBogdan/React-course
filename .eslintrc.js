@@ -22,6 +22,8 @@ module.exports = {
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/require-default-props': 0,
+    'react/no-unused-state': 0,
     'import/prefer-default-export': 0,
     'react/prop-types': 0,
     'no-nested-ternary': 0,

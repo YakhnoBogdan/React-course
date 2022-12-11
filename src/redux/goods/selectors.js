@@ -8,6 +8,7 @@ export const selectErrorAdd = (state) => !!state.goods.errorPostGoods || !!state
 
 export const selectIsLoadingRemove = (state) => state.goods.isLoadingRemove
 
+export const selectGoodsToEdit = (state) => state.goods.goodsToEdit
 export const selectIsLoadingEdit = (state) => state.goods.isLoadingEdit
 
 export const selectFieldFilter = (state) => state.goods.fieldFilter
