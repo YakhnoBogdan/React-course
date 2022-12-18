@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { Box, FormControl, InputLabel, Select, MenuItem } from '@mui/material'
-import { useCallback, useEffect, useState } from 'react'
+import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material'
+import React, { useCallback, useEffect, useState } from 'react'
 import { sortByField } from '../../redux/goods/actions'
 import './SortField.css'
 
@@ -10,16 +10,16 @@ export function SortField() {
   const [sortingField, setSortField] = useState('weight')
   const [sortWay, setSortWay] = useState('desc')
 
-  const handleChangeSortField = useCallback((event) => {
+  const handleChangeSortField = useCallback((event: SelectChangeEvent<string>) => {
     setSortField(event.target.value)
   }, [])
 
-  const handleChangeSortWay = useCallback((event) => {
+  const handleChangeSortWay = useCallback((event: SelectChangeEvent<string>) => {
     setSortWay(event.target.value)
   }, [])
 
   useEffect(() => {
-    dispatch(sortByField(sortWay, sortingField))
+    dispatch(sortByField({ sortWay, sortingField }))
   }, [dispatch, sortWay, sortingField])
 
   return (

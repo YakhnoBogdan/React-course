@@ -1,9 +1,17 @@
 import { Box, TextField, Button } from '@mui/material'
-import { useCallback, useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import PropTypes from 'prop-types'
+import React, { useCallback, useState, useEffect } from 'react'
 import { fetchAddGoods, fetchUpdateGoods } from '../../redux/goods/thunk'
 import './EditForm.css'
+import { GoodsModel } from '../../services/goodsTypes'
+import { dispatchStore } from '../../redux'
+
+interface EditFormProps {
+  editItem: GoodsModel | null
+  onSaveEditItem: () => void
+  errorAdd: boolean
+}
+
+type InitialGoods = Omit<GoodsModel, 'id'> & { id?: string }
 
 const initialGoods = {
   title: '',
@@ -12,18 +20,16 @@ const initialGoods = {
   category: '',
 }
 
-export function EditForm({ editItem, onSaveEditItem, errorAdd }) {
-  const [goods, setGoods] = useState(initialGoods)
+export function EditForm({ editItem, onSaveEditItem, errorAdd }: EditFormProps) {
+  const [goods, setGoods] = useState<InitialGoods>(initialGoods)
   const [inputError, setInputError] = useState(errorAdd)
-
-  const dispatch = useDispatch()
 
   useEffect(() => {
     setInputError(errorAdd)
   }, [errorAdd])
 
   const onChangeText = useCallback(
-    (event) => {
+    (event: React.ChangeEvent<HTMLInputElement>) => {
       setInputError(false)
       setGoods({
         ...goods,
@@ -45,13 +51,13 @@ export function EditForm({ editItem, onSaveEditItem, errorAdd }) {
 
   const onSaveItem = useCallback(() => {
     if (editItem?.id) {
-      dispatch(fetchUpdateGoods(goods))
+      dispatchStore(fetchUpdateGoods({ ...goods, id: editItem.id }))
       onSaveEditItem()
     } else {
-      dispatch(fetchAddGoods(goods))
+      dispatchStore(fetchAddGoods(goods))
     }
     clearForm()
-  }, [dispatch, editItem, goods, clearForm, onSaveEditItem])
+  }, [editItem, goods, clearForm, onSaveEditItem])
 
   return (
     <Box className='form'>
@@ -98,16 +104,4 @@ export function EditForm({ editItem, onSaveEditItem, errorAdd }) {
       </Box>
     </Box>
   )
-}
-
-EditForm.propTypes = {
-  editItem: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    weight: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-  }).isRequired,
-  onSaveEditItem: PropTypes.func.isRequired,
-  errorAdd: PropTypes.bool.isRequired,
 }

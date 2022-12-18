@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Box, CircularProgress } from '@mui/material'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { EditForm } from './components/EditForm/EditForm'
 import { GoodsList } from './components/GoodsList/GoodsList'
+import { FilterField } from './components/FilterField/FilterField'
+import { SortField } from './components/SortField/SortField'
 import {
   selectGoodsList,
   selectIsLoadingAllGoods,
@@ -15,8 +17,8 @@ import {
   selectErrorAdd,
 } from './redux/goods/selectors'
 import { fetchAllGoodsThunk, fetchGoodsToRemove } from './redux/goods/thunk'
-import { FilterField } from './components/FilterField/FilterField'
-import { SortField } from './components/SortField/SortField'
+import { GoodsModel } from './services/goodsTypes'
+import { dispatchStore } from './redux'
 
 function App() {
   const goodsList = useSelector(selectGoodsList)
@@ -28,25 +30,21 @@ function App() {
   const errorAdd = useSelector(selectErrorAdd)
   const fieldFilter = useSelector(selectFieldFilter)
   const stringFilter = useSelector(selectStringFilter)
-  const dispatch = useDispatch()
 
-  const [editItem, setEditItem] = useState(null)
+  const [editItem, setEditItem] = useState<GoodsModel | null>(null)
 
   const fetchAllGoodsThunkCallback = useCallback(() => {
-    dispatch(fetchAllGoodsThunk())
-  }, [dispatch])
+    dispatchStore(fetchAllGoodsThunk())
+  }, [])
 
   useEffect(() => {
     fetchAllGoodsThunkCallback()
   }, [fetchAllGoodsThunkCallback])
 
-  const onRemoveItem = useCallback(
-    (id) => {
-      dispatch(fetchGoodsToRemove(id))
-    },
-    [dispatch],
-  )
-  const onEditItem = useCallback((goodsItem) => {
+  const onRemoveItem = useCallback((id: string) => {
+    dispatchStore(fetchGoodsToRemove(id))
+  }, [])
+  const onEditItem = useCallback((goodsItem: GoodsModel) => {
     setEditItem(goodsItem)
   }, [])
   const onSaveEditItem = useCallback(() => {

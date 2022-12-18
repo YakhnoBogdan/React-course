@@ -1,15 +1,28 @@
-import PropTypes from 'prop-types'
 import { Card, CardActions, CardContent, Button, Typography, CircularProgress } from '@mui/material'
 import { useCallback } from 'react'
 import './Goods.css'
+import { GoodsModel } from '../../services/goodsTypes'
 
-export function Goods({ goods, onRemoveItem, onEditItem, isLoadingRemove, isLoadingAdd, isLoadingEdit }) {
+interface GoodsProps {
+  goods?: GoodsModel
+  onRemoveItem?: (id: string) => void
+  onEditItem?: (goods: GoodsModel) => void
+  isLoadingRemove?: boolean
+  isLoadingAdd?: boolean
+  isLoadingEdit?: boolean
+}
+
+export function Goods({ goods, onRemoveItem, onEditItem, isLoadingRemove, isLoadingAdd, isLoadingEdit }: GoodsProps) {
   const handleRemove = useCallback(() => {
-    onRemoveItem(goods.id)
+    if (goods?.id && onRemoveItem) {
+      onRemoveItem(goods.id)
+    }
   }, [goods, onRemoveItem])
 
   const handleEditClick = useCallback(() => {
-    onEditItem(goods)
+    if (goods && onEditItem) {
+      onEditItem(goods)
+    }
   }, [goods, onEditItem])
 
   if (isLoadingAdd) {
@@ -49,19 +62,4 @@ export function Goods({ goods, onRemoveItem, onEditItem, isLoadingRemove, isLoad
       </CardActions>
     </Card>
   )
-}
-
-Goods.propTypes = {
-  goods: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    weight: PropTypes.string.isRequired,
-    category: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-  }).isRequired,
-  onRemoveItem: PropTypes.func.isRequired,
-  onEditItem: PropTypes.func.isRequired,
-  isLoadingRemove: PropTypes.objectOf(PropTypes.bool).isRequired,
-  isLoadingEdit: PropTypes.objectOf(PropTypes.bool).isRequired,
-  isLoadingAdd: PropTypes.bool.isRequired,
 }
