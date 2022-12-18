@@ -1,9 +1,9 @@
 import { Box, TextField, Button } from '@mui/material'
 import React, { useCallback, useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { fetchAddGoods, fetchUpdateGoods } from '../../redux/goods/thunk'
 import './EditForm.css'
 import { GoodsModel } from '../../services/goodsTypes'
-import { dispatchStore } from '../../redux'
 
 interface EditFormProps {
   editItem: GoodsModel | null
@@ -24,6 +24,7 @@ export function EditForm({ editItem, onSaveEditItem, errorAdd }: EditFormProps) 
   const [goods, setGoods] = useState<InitialGoods>(initialGoods)
   const [inputError, setInputError] = useState(errorAdd)
 
+  const dispatch = useDispatch()
   useEffect(() => {
     setInputError(errorAdd)
   }, [errorAdd])
@@ -51,13 +52,13 @@ export function EditForm({ editItem, onSaveEditItem, errorAdd }: EditFormProps) 
 
   const onSaveItem = useCallback(() => {
     if (editItem?.id) {
-      dispatchStore(fetchUpdateGoods({ ...goods, id: editItem.id }))
+      dispatch(fetchUpdateGoods({ ...goods, id: editItem.id }))
       onSaveEditItem()
     } else {
-      dispatchStore(fetchAddGoods(goods))
+      dispatch(fetchAddGoods(goods))
     }
     clearForm()
-  }, [editItem, goods, clearForm, onSaveEditItem])
+  }, [editItem, goods, clearForm, onSaveEditItem, dispatch])
 
   return (
     <Box className='form'>
